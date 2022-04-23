@@ -106,16 +106,20 @@ First, ensure that you meet the prerequisites and have MySQL installed.
 #### Database setup
 Start the MySQL server in a terminal window. This can be achieved with the command
 `mysql -u root -p`. On my machine (macOS 11), command `mysql` was not recognized. 
-This can be remedied by running the command `/usr/local/mysql/bin/mysql -u root -p`
+This can be remedied by running the command `/usr/local/mysql/bin/mysql -u root -p`.
 Login with your root password.
 
 Now, you need to create two users:
-`CREATE USER 'user'@'localhost';`
-`CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'testpassword';`
+```
+CREATE USER 'user'@'localhost';
+CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'testpassword';
+```
 
 Grant both users the necessary privileges. This can be achieved with:
-`GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost';`
-`GRANT ALL PRIVILEGES ON *.* TO 'testuser'@'localhost';`
+```
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'testuser'@'localhost';
+```
 
 Ensure that the MySQL server is running somewhere in the background when you are 
 testing or running the app.
@@ -126,8 +130,10 @@ do it here as well to fix a weird import error):
 `pip install -r requirements.txt`
 
 Setup virtual environment:
-`python -m venv env`
-`source env/bin/activate`
+```
+python -m venv env
+source env/bin/activate
+```
 
 Install requirements in virtual environment:
 `pip install -r requirements.txt`
@@ -145,12 +151,16 @@ python populate_db.py
 ```
 
 #### Running App
-`export FLASK_ENV="development"`
-`flask run`
+```
+export FLASK_ENV="development"
+flask run
+```
 
 #### Running Tests
-`cd test`
-`pytest`
+```
+cd test
+pytest
+```
 
 
 
