@@ -1,0 +1,178 @@
+/* Button CSS courtesy of https://tympanus.net/Development/CreativeButtons/ */
+/* General button style (reset) */
+.share-btn {
+	border: none;
+    border-radius: 5px;
+	font-family: inherit;
+	font-size:large;
+	color: inherit;
+	background: #0e83cd;
+	cursor: pointer;
+	padding: 15px 50px;
+	display: inline-block;
+	margin: 20px 0px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.share-btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+
+.share-btn:before {
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Button 1 */
+.btn-1 {
+	color: #ffffff;
+}
+
+.btn-1c::before {
+    background: #0e83cd;
+}
+
+/* Button 1c */
+.btn-1c:after {
+	width: 0%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.btn-1c:hover,
+.btn-1c:active {
+    border:3px solid #0e83cd;
+	color: #0e83cd;
+    background: #ffffff;
+}
+
+.btn-1c:hover:after,
+.btn-1c:active:after {
+	width: 100%;
+}
+
+/* Tooltip */
+.button-tooltip-container {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    min-height: 30px;
+
+}
+
+#custom-tooltip {
+    display: none;
+    margin-left: 40px;
+    padding: 5px 12px;
+    background-color: #000000df;
+    border-radius: 4px;
+    color: #fff;
+}
+
+/* End article hover tooltip */
+.blocker {
+	position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: ' ';
+    background: rgba(0,0,0,.5);
+    z-index: 1000000;
+}
+
+.tooltip-container {
+    width: 360px;
+    font-size: 14px;
+    background: white;
+    box-shadow: 0 30px 90px -20px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    z-index: 10000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tooltip-container > img {
+    width: 320px;
+    max-height: 320px;
+    margin: 1rem 1rem 0;
+    vertical-align: middle;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.tooltip-container > div {
+    overflow: hidden;
+    max-height: 12em;
+    line-height: 1.5;
+    margin: 1rem;
+}
+
+.tooltip-container > div::after {
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 1.5em;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%);
+    pointer-events: none;
+}
+
+.tooltip-container p {
+    position: relative;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+ 
+.centered {
+	width:auto;
+	max-width: 1000px !important;
+	z-index: 10000;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	/* bring your own prefixes */
+	transform: translate(-50%, -50%);
+	background-color: #F8F8F8;
+    margin-bottom: 15px;
+    border: 2px solid #000000 !important;
+}
+
+#confettiCanvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#article-end-marker {
+	margin-bottom: 40vh;
+}
+
+.HUDwrapper-mobile-inner-container {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+

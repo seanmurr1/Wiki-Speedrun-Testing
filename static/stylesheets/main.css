@@ -1,0 +1,151 @@
+.text-size-1 {
+    font-size: 20px;
+}
+
+.text-size-3 {
+    font-size: 40px;
+}
+
+.thumbcaption {
+    margin: 5px 5px;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+a:hover, a:hover * {
+    text-decoration: underline !important;
+}
+
+.countdown {
+    width: 60%;
+    font-size: 250px;
+    font-weight: bold;
+}
+
+.startgun {
+    width: 200px;
+    position: absolute;
+    left:60%;
+}
+
+.invgif {
+    transform: scaleX(-1);
+    left:25% !important;
+}
+
+.mirroredimgblock {
+    position:relative;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.HUDwrapper {
+    position:fixed;
+    z-index: 1000;
+    width:auto !important;
+    bottom: 0;
+    background-color: #F8F8F8;
+    margin-bottom: 15px;
+    border: 2px solid #000000 !important;
+}
+
+.HUDwrapper-mobile {
+    position:fixed;
+    z-index: 1000;
+    width: 100vw;
+    bottom: 0;
+    left:0;
+    background-color: #F8F8F8;
+    border-top: 3px solid #000000 !important;
+}
+
+@media (max-width: 1200px) {
+    .mirroredimgblock {
+        visibility:hidden !important;
+    }
+
+    #springydemo {
+        display:none !important;
+    }
+}
+
+.checkpointCol {
+    display: block;
+}
+
+@media (max-width: 767px) {
+    .checkpointCol {
+        display: none;
+    }
+
+    .show-on-mobile {
+        display: block;
+    }
+
+    .show-on-desktop {
+        display: none;
+    }
+
+    .content span > img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .show-on-mobile {
+        display: none;
+    }
+
+    .show-on-desktop {
+        display: block;
+    }
+
+    .tleft {
+        float: left;
+        margin: 15px 15px;
+        overflow: auto;
+        clear: left;
+    }
+
+    .tright {
+        float: right;
+        margin: 15px 15px;
+        overflow: auto;
+        clear: right;
+    }
+
+    .thumb {
+        font-size: 80%;
+        text-align: center;
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+}
+
+@media (min-width: 500px) {
+    .l-col {
+        white-space: nowrap
+    }
+}
+
+
+.bold {
+    font-weight: bold !important;
+}
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+[v-cloak] { display: none }
+
