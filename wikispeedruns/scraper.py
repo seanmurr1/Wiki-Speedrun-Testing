@@ -333,6 +333,7 @@ def tracePath(visited: Dict[int, Tuple[int, int]], page: int, start: int) -> Lis
     cur = page
     while cur != start:
         output.append(cur)
+        print(output)
         cur = visited[cur][0]
     
     output.append(start)
@@ -515,13 +516,23 @@ def checkStart(start: int, thresholdStart: int) -> bool:
     
     return True
 
+
+# CHANGED TO FIX FAULT
 def countWords(string: str) -> int:
-#def countWords(string):
     """Count words in a string, used for skewing start and end filters against articles with longer titles"""
-    counter = 1
+    word = False
+    counter = 0
     for i in string:
-        if i == ' ' or i == '-':
+        if i == ' ' and word:
             counter += 1
+            word = False 
+        elif i == '-' and word:
+            counter += 1 
+            word = False
+        elif i != ' ':
+            word = True
+    if word:
+        counter += 1
     return counter
 
 def randomFilter(bln: bool, chance: float) -> bool:

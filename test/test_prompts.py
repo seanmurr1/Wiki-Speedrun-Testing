@@ -1,5 +1,8 @@
+from datetime import datetime
 import enum
 import pytest
+
+from wikispeedruns.prompts import compute_visibility, Prompt
 
 PROMPTS = [
     {
@@ -65,3 +68,41 @@ def test_delete_no_admin(client, cursor, prompt_set):
     assert response.status_code == 401
     cursor.execute("SELECT start, end FROM sprint_prompts WHERE prompt_id=%s", (id, ))
     assert cursor.fetchone() == PROMPTS[id]
+
+
+prompt1 = {
+    "prompt_id": 1,
+    "start": "",
+    "active_start": datetime.now(),
+    "active_end": datetime.now(),
+
+    "used": False,
+    "available": True,
+    "active": True,
+    "played": False
+}
+
+prompt2 = {
+    "prompt_id": 1,
+    "start": "",
+    "active_start": None,
+    "active_end": None,
+
+    "used": True,
+    "available": True,
+    "active": True,
+    "played": False
+}
+
+def test_compute_visibility():
+    p1 = compute_visibility(prompt1)
+    assert p1["used"]
+    assert p1["available"]
+    assert not p1["active"]
+
+    p2 = compute_visibility(prompt2)
+    assert not p2["used"]
+    assert p2["available"]
+    assert p2["active"]
+    assert not p2["played"]
+

@@ -100,3 +100,12 @@ def test_permissions_user(client, session2, lobby):
         "end": "test"
     })
     assert resp.status_code == 401
+
+from wikispeedruns.lobbys import _random_passcode
+
+def test_random_passcode():
+    for _ in range(1000):
+        pw = _random_passcode()
+        assert len(pw) == 6
+        assert int(pw) >= 0
+        assert int(pw) <= 999999
