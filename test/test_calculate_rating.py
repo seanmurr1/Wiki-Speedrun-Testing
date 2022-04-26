@@ -12,7 +12,7 @@ def test_elo_prob():
   assert round(_elo_prob(-2, 4), 6) == 0.491366
   assert round(_elo_prob(100, 1), 6) == 0.638738
 
-
+# Fixture for test data
 @pytest.fixture()
 def sample_users1():
   users1 = {
@@ -34,6 +34,28 @@ def sample_users1():
   }
   yield users1
 
+# Fixture for test data
+@pytest.fixture()
+def sample_users2():
+  users2 = {
+    1: {
+     "rating": 100,
+      "num_rounds": 0,
+      "username": "elon@gmail.com"
+    },
+    2: {
+      "rating": 2000,
+      "num_rounds": 2,
+      "username": "stad@gmail.com"
+    },
+    3: {
+      "rating": 1650,
+      "num_rounds": 1,
+      "username": "mutation@gmail.com"
+    }
+  }
+  yield users2
+
 round1 = [1, 2, 3]
 
 # Unit test calculate_seed for BC
@@ -51,13 +73,18 @@ def test_calculate_place(sample_users1):
   assert sample_users1[3]["place"] == 3
 
 # Unit test calculate desired seed for BC
-def test_calculate_desired_seed(sample_users1):
+def test_calculate_desired_seed(sample_users1, sample_users2):
   _calculate_seed(sample_users1, round1)
   _calculate_place(sample_users1, round1)
   _calculate_desired_seed(sample_users1)
   assert round(sample_users1[1]["desired_seed"], 6) == 1.346472
   assert round(sample_users1[2]["desired_seed"], 6) == 2.420449
   assert round(sample_users1[3]["desired_seed"], 6) == 1.942466
+
+  _calculate_desired_seed(sample_users2)
+  assert "desired_seed" not in sample_users2[1]
+  assert "desired_seed" not in sample_users2[2]
+  assert "desired_seed" not in sample_users2[3]
 
 # Unit test rating for seed for BC
 def test_rating_for_seed(sample_users1):
@@ -79,9 +106,13 @@ def test_calculate_new_ratings(sample_users1):
   assert sample_users1[3]["rating"] == 1491
 
 # Unit test update for BC
-def test_update(sample_users1):
+def test_update(sample_users1, sample_users2):
   _update(sample_users1, round1)
   assert sample_users1[1]["num_rounds"] == 1
   assert sample_users1[2]["num_rounds"] == 1
   assert sample_users1[3]["num_rounds"] == 1
+
+  prev = sample_users2.copy()
+  _update(sample_users2, [1])
+  assert prev == sample_users2
 

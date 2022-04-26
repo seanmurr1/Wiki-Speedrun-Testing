@@ -27,6 +27,8 @@ def test_randomFilter():
 
   res = (abs(numFalse - numTrue) / numRuns) * 100
   assert res < 2
+  assert not randomFilter(False, 1)
+
 
 # Unit test countDigitsInTitle for BC
 def test_countDigitsInTitle():
