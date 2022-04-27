@@ -181,7 +181,7 @@ Now, check index.html in /test/htmlcov to view coverage analysis.
 cd test
 locust
 ```
-
+Runs locally on port 8089.
 
 
 
