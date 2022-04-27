@@ -137,7 +137,12 @@ source env/bin/activate
 ```
 
 Install requirements in virtual environment:
-`pip install -r requirements.txt` and `pip install coverage`
+`pip install -r requirements.txt`, `pip install coverage`, `pip install seleniumbase`, `pip install locust`
+
+Install ChromeDriver for Selenium (may have to update PATH in test_frontend.py):
+```
+sbase install chromedriver latest
+```
 
 Create database:
 ```
@@ -171,6 +176,11 @@ coverage html
 ```
 Now, check index.html in /test/htmlcov to view coverage analysis.
 
+#### Run locust
+```
+cd test
+locust
+```
 
 
 
