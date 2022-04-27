@@ -105,11 +105,21 @@ def randomFilter(bln, chance):
     return False
 
 
+# CHANGED TO FIX FAULT
 def countWords(string):
-    counter = 1
+    word = False
+    counter = 0
     for i in string:
-        if i == ' ' or i == '-':
+        if i == ' ' and word:
             counter += 1
+            word = False 
+        elif i == '-' and word:
+            counter += 1 
+            word = False
+        elif i != ' ':
+            word = True
+    if word:
+        counter += 1
     return counter
 
 

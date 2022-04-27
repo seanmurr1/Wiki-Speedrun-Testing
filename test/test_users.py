@@ -199,6 +199,62 @@ def test_reset_password(client, mail, cursor, user, session):
         }).status_code == 200
 
 
+# Test api route to create user with error conditions
+def test_create_user_failure(client, cursor, user):
+
+    response = client.post("/api/users/create/email", json={
+        "email" : "test@test.com",
+        "password" : "test"
+    })
+    assert response.status_code == 400
+
+    response = client.post("/api/users/create/email", json={
+        "username" : "?#$*(()",
+        "email" : user["email"],
+        "password" : "test"
+    })
+    assert response.status_code == 400
+
+# Test login API endpoint with failure conditions
+def test_login_failure(client, user):
+    resp = client.post("/api/users/login", json={"password": "abc"})
+    assert resp.status_code == 400
+
+    resp = client.post("/api/users/login", json={"username": "bob"})
+    assert resp.status_code == 400
+
+    resp = client.post("/api/users/login", json={"username": "echoingsins", "password": "abc123"})
+    assert resp.status_code == 401
+
+# Test change password endpoint with failure conditions
+def test_change_password_failure(client, user, session):
+    resp = client.post("/api/users/change_password", json={
+        "new_password": "supersecret"
+    })
+    assert resp.status_code == 400
+
+    resp = client.post("/api/users/change_password", json={
+        "old_password": "not_correct_old_pw",
+        "new_password": "supersecret"
+    })
+    assert resp.status_code == 401
+
+# FOUND FAULT
+# SHOULD RETURN 400 CODE FOR INVALID REQUEST
+def test_reset_password_failure(client, user, session):
+    resp = client.post("/api/users/reset_password", json={
+        "password": "new", "token": "test"
+    })
+    assert resp.status_code == 400
+
+    resp = client.post("/api/users/reset_password", json={
+        "user_id": "not int", "password": "new", "token": "test"
+    })
+    assert resp.text == "`user_id` should be an int"
+    assert resp.status_code == 400
+
+
+
 
 
 
