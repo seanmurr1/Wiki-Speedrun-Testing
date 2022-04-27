@@ -365,7 +365,7 @@ def reset_password():
         return "Invalid request", 400
 
     if type(request.json["user_id"]) != int:
-        return "`user_id` should be an int"
+        return "`user_id` should be an int", 400
 
     id = request.json["user_id"]
     password = request.json["password"]

@@ -1,4 +1,5 @@
 from pydoc import cli
+from pymysql import DATETIME
 import pytest
 
 import wikispeedruns
@@ -46,6 +47,33 @@ def test_join_lobby_anonymous(client, lobby):
     resp = client.get(f"/api/lobbys/{lobby_id}")
     assert resp.status_code == 200
     assert resp.json["lobby_id"] == lobby_id
+
+# Test failure conditions of joining lobby
+# BB & aim to get BC
+def test_join_lobby_failures(client, lobby):
+    lobby_id = lobby["lobby_id"]
+    resp = client.post(f"/api/lobbys/{None}/join", json={
+        "name": "anonymous",
+        "passcode": lobby["passcode"],
+    })
+    assert resp.status_code == 404
+
+    resp = client.post(f"/api/lobbys/{lobby_id}/join", json={
+        "name": "anonymous",
+        "passcode": "bad_pw",
+    })
+    assert resp.status_code == 401
+
+    resp = client.post(f"/api/lobbys/{lobby_id}/join", json={
+        "passcode": lobby["passcode"],
+    })
+    assert resp.status_code == 400
+
+    resp = client.post(f"/api/lobbys/123123123/join", json={
+        "name": "anonymous",
+        "passcode": lobby["passcode"],
+    })
+    assert resp.status_code == 404
 
 
 def test_join_lobby_user(client, cursor, session2, lobby):
@@ -100,6 +128,88 @@ def test_permissions_user(client, session2, lobby):
         "end": "test"
     })
     assert resp.status_code == 401
+
+# Test failure conditions of trying to get a lobby
+def test_get_add_prompt_to_lobby(cursor, client, session):
+    resp = client.post("/api/lobbys", json={
+        "name": "testlobby",
+        "desc": "lobby for testing",
+        "rules": {},
+    })
+    lobby_id = resp.json["lobby_id"]
+    resp = client.post(f"api/lobbys/{lobby_id}/prompts", json={
+        "start": "test",
+        "end": "test"
+    })
+    assert resp.status_code == 200
+
+    # Assert that we inserted and are now deleting something
+    assert 1 == cursor.execute("DELETE FROM lobby_prompts WHERE lobby_id=%s", (lobby_id,))
+    assert 1 == cursor.execute("DELETE FROM user_lobbys WHERE lobby_id=%s", (lobby_id,))
+    assert 1 == cursor.execute("DELETE FROM lobbys WHERE lobby_id=%s", (lobby_id,))
+
+# Test API to get lobby prompts
+def test_get_lobby_prompts(cursor, client, session):
+    resp = client.post("/api/lobbys", json={
+        "name": "testlobby",
+        "desc": "lobby for testing",
+        "rules": {},
+    })
+    lobby_id = resp.json["lobby_id"]
+
+    resp = client.get(f"api/lobbys/{lobby_id}/prompts/1")
+    assert resp.status_code == 404
+
+    resp = client.post(f"api/lobbys/{lobby_id}/prompts", json={
+        "start": "test",
+        "end": "test"
+    })
+    assert resp.status_code == 200
+
+    resp = client.get(f"api/lobbys/{lobby_id}/prompts")
+    assert resp.text == "[{\"end\":\"test\",\"prompt_id\":1,\"start\":\"test\"}]\n"
+
+    resp = client.get(f"api/lobbys/{lobby_id}/prompts/1")
+    assert resp.text == "{\"end\":\"test\",\"prompt_id\":1,\"start\":\"test\"}\n"
+
+    # Assert that we inserted and are now deleting something
+    assert 1 == cursor.execute("DELETE FROM lobby_prompts WHERE lobby_id=%s", (lobby_id,))
+    assert 1 == cursor.execute("DELETE FROM user_lobbys WHERE lobby_id=%s", (lobby_id,))
+    assert 1 == cursor.execute("DELETE FROM lobbys WHERE lobby_id=%s", (lobby_id,))
+
+import datetime
+
+# # Test API to add prompt run to lobby
+# def test_get_lobby_prompts(cursor, client, session):
+#     # Create lobby
+#     resp = client.post("/api/lobbys", json={
+#         "name": "testlobby",
+#         "desc": "lobby for testing",
+#         "rules": {},
+#     })
+#     lobby_id = resp.json["lobby_id"]
+
+#     # Create prompt
+#     resp = client.post(f"api/lobbys/{lobby_id}/prompts", json={
+#         "start": "test",
+#         "end": "test"
+#     })
+
+#     resp = client.post(f"api/lobbys/{lobby_id}/prompts/1/runs", json={
+#         "start_time": 10,
+#         "end_time": 100
+#     })
+
+#     print(resp.text)
+
+#     # Assert that we inserted and are now deleting something
+#     #assert 1 == cursor.execute("DELETE FROM lobby_runs WHERE lobby_id=%s", (lobby_id,))
+#     assert 1 == cursor.execute("DELETE FROM lobby_prompts WHERE lobby_id=%s", (lobby_id,))
+#     assert 1 == cursor.execute("DELETE FROM user_lobbys WHERE lobby_id=%s", (lobby_id,))
+#     assert 1 == cursor.execute("DELETE FROM lobbys WHERE lobby_id=%s", (lobby_id,))
+#     assert False
+
+
 
 from wikispeedruns.lobbys import _random_passcode
 

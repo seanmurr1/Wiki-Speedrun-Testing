@@ -127,7 +127,8 @@ testing or running the app.
 #### App setup
 Install requirements (this is also done in the virtual environment, but I had to 
 do it here as well to fix a weird import error):
-`pip install -r requirements.txt`
+`pip install -r requirements.txt` and 
+`pip install coverage`
 
 Setup virtual environment:
 ```
@@ -136,7 +137,7 @@ source env/bin/activate
 ```
 
 Install requirements in virtual environment:
-`pip install -r requirements.txt`
+`pip install -r requirements.txt` and `pip install coverage`
 
 Create database:
 ```
@@ -162,6 +163,13 @@ cd test
 pytest
 ```
 
+#### Obtaining Coverage
+```
+cd test
+coverage run --branch -m pytest
+coverage html
+```
+Now, check index.html in /test/htmlcov to view coverage analysis.
 
 
 
