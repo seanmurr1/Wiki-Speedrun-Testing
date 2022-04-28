@@ -76,7 +76,7 @@ def test_get_all_runs(client, cursor, user, session):
 def test_get_run(client, cursor, user, session): 
   assert 1 == cursor.execute('INSERT INTO sprint_prompts (start, end) VALUES ("A", "B")')
   path = json.dumps([20, 21])
-  assert 1 == cursor.execute('INSERT INTO sprint_runs (prompt_id, path, user_id) VALUES (12, %s, 15)', (path,))
+  assert 1 == cursor.execute('INSERT INTO sprint_runs (prompt_id, path, user_id) VALUES (12, %s, 25)', (path,))
   cursor.execute('SELECT * FROM sprint_runs')
   print(cursor.fetchall())
   resp = client.get('/api/runs/5')
@@ -84,7 +84,7 @@ def test_get_run(client, cursor, user, session):
   print(resp.json) 
   assert 1 == cursor.execute("DELETE FROM sprint_runs WHERE prompt_id=%s", (12,))
   assert 1 == cursor.execute("DELETE FROM sprint_prompts")
-  assert resp.json["user_id"] == 15
+  assert resp.json["user_id"] == 25
   assert resp.json["run_id"] == 5
   assert resp.json["path"] == [20, 21]
 

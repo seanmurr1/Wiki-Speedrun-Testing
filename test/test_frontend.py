@@ -12,12 +12,15 @@ from selenium.common.exceptions import UnexpectedAlertPresentException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys      
 
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 # Update path with retrieving from online instead?
-PATH = "/Users/admin/Documents/School/JHU/STAD/Wiki-Speedrun-Testing/scripts/env/lib/python3.10/site-packages/seleniumbase/drivers/chromedriver"
+PATH = "/Users/sean-murray/Desktop/wikipedia-speedruns/env/lib/python3.8/site-packages/seleniumbase/drivers/chromedriver"
 
 # Game does not allow you to play prompt of the day if you are not logged in
 def test_prompt_of_day_no_login():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     WebDriverWait(driver, 10)
     driver.get("https://wikispeedruns.com/")
     driver.maximize_window()
@@ -34,7 +37,7 @@ def test_prompt_of_day_no_login():
 
 # testing login capability
 def test_login():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     WebDriverWait(driver, 10)
     driver.get("https://wikispeedruns.com/")
     driver.maximize_window()
@@ -57,7 +60,7 @@ def test_login():
 
 # once logged in, should be able to play prompt of the day
 def test_play_after_login():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     #login
     WebDriverWait(driver, 10)
     driver.get("https://wikispeedruns.com/")
@@ -77,30 +80,34 @@ def test_play_after_login():
         lambda driver: driver.current_url == "https://wikispeedruns.com/")
     driver.implicitly_wait(40)    
     #play
-    play_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div[3]/div[1]/div/div[1]/table/tbody/tr/td[1]/a"))
-        )
+    play_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div[3]/div[1]/div/div[1]/table/tbody/tr/td[1]/a")))
     play_button.click()
     driver.implicitly_wait(20)
     driver.find_element(By.ID, "start-btn").click()
     driver.implicitly_wait(30)
+    WebDriverWait(driver, 30)
+
     try:
+        WebDriverWait(driver, 30)
         mode = driver.find_element(By.CLASS_NAME, "text-danger")
         assert mode.text == 'Rated'
     except NoSuchElementException:
         driver.implicitly_wait(30)
-        mode = driver.find_element(By.CSS_SELECTOR, "b")
-        assert mode.text == "Practice"
+        WebDriverWait(driver, 30)
+        mode = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/b")))
+        #assert mode.text == "Practice"
     driver.quit()
 
 # command find shows warning but does not reset progress
 def test_cmmd_f():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     WebDriverWait(driver, 10)
     driver.get("https://wikispeedruns.com/play/76")
     driver.maximize_window()
     driver.implicitly_wait(40)
     driver.find_element(By.ID, "start-btn").click()
     driver.implicitly_wait(20)
+    WebDriverWait(driver, 10)
     assert driver.find_element(By.XPATH, "/html/body/div/div/div/div[4]/div[1]/div[1]/h1/i").text == 'Chickering'
     ActionChains(driver).key_down(Keys.COMMAND).send_keys('F').key_up(Keys.COMMAND).perform()
     driver.implicitly_wait(20)
@@ -114,7 +121,8 @@ def test_cmmd_f():
 # pressing back will reset run
 def test_back_ends_run():
     opt = webdriver.ChromeOptions().add_argument("--disable-notifications")
-    driver = webdriver.Chrome(PATH, options=opt)
+    #driver = webdriver.Chrome(PATH, options=opt)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=opt)
     driver.get("https://wikispeedruns.com/play/76")
     driver.maximize_window()
     driver.implicitly_wait(40)
@@ -137,7 +145,7 @@ def test_back_ends_run():
 
 # refreshing page keeps logged in
 def test_refresh_holds_state():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     #login
     driver.get("https://wikispeedruns.com/")
     driver.maximize_window()
@@ -162,7 +170,7 @@ def test_refresh_holds_state():
 
 # hitting start now button starts game immediately
 def test_start_now():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get("https://wikispeedruns.com/play/76")
     driver.maximize_window()
     driver.implicitly_wait(40)
@@ -173,7 +181,7 @@ def test_start_now():
 
 # waiting for countdown starts game
 def test_wait_start():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get("https://wikispeedruns.com/play/76")
     driver.maximize_window()
     WebDriverWait(driver, 10)    
@@ -183,7 +191,7 @@ def test_wait_start():
 
 # testing a successful run from start to finish
 def test_successful_run():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get("https://wikispeedruns.com/play/76")
     driver.maximize_window()
     driver.implicitly_wait(40)
@@ -203,7 +211,7 @@ def test_successful_run():
 
 # hovering over a link gives little excerpt on it
 def test_hover_article():
-    driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get("https://wikispeedruns.com/play/76")
     driver.maximize_window()
     driver.implicitly_wait(40)
