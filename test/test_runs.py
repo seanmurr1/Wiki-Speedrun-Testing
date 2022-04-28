@@ -19,6 +19,8 @@ import time
 #     },
 # ]
 
+# can prob code a @BeforeEach type to make prompts etc and then cleanup function??
+
 def test_create_run(client, cursor, user, session):
   assert 1 == cursor.execute('INSERT INTO sprint_prompts (start, end) VALUES ("A", "B")')
   cursor.execute('SELECT prompt_id FROM sprint_prompts')
@@ -51,6 +53,7 @@ def test_finish_run(client, cursor, user, session):
   assert 1 == cursor.execute("DELETE FROM sprint_runs WHERE prompt_id=%s", (prompt_id,))
   assert 1 == cursor.execute("DELETE FROM sprint_prompts")
 
+#not testing anything rn
 def test_update_anonymous_sprint_run(client, cursor):
   assert 1 == cursor.execute('INSERT INTO sprint_prompts (start, end) VALUES ("A", "B")')
   cursor.execute('SELECT prompt_id FROM sprint_prompts')
