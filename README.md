@@ -128,10 +128,10 @@ testing or running the app.
 Install requirements (this is also done in the virtual environment, but I had to 
 do it here as well to fix a weird import error):
 ```
-pip install -r requirements.txt
-pip install coverage
-pip install seleniumbase
-pip install locust
+pip3 install -r requirements.txt
+pip3 install coverage
+pip3 install seleniumbase
+pip3 install locust
 pip3 install -U selenium
 pip3 install webdriver-manager
 ```
@@ -141,13 +141,18 @@ Setup virtual environment:
 python3 -m venv venv
 source env/bin/activate
 ```
+If previous setup fails try:
+```
+pip3 install virtualenv
+source venv/bin/activat3
+```
 
 Install requirements in virtual environment just to be sure things work:
 ```
-pip install -r requirements.txt
-pip install coverage
-pip install seleniumbase
-pip install locust
+pip3 install -r requirements.txt
+pip3 install coverage
+pip3 install seleniumbase
+pip3 install locust
 pip3 install -U selenium
 pip3 install webdriver-manager
 ```
