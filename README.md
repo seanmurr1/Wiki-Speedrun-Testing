@@ -130,16 +130,33 @@ do it here as well to fix a weird import error):
 `pip install -r requirements.txt` and 
 `pip install coverage`
 
+```
+pip install -r requirements.txt
+pip install coverage
+pip install seleniumbase
+pip install locust
+pip3 install -U selenium
+pip3 install webdriver-manager
+```
+
 Setup virtual environment:
 ```
-python -m venv env
+python3 -m venv venv
 source env/bin/activate
 ```
 
-Install requirements in virtual environment:
+Install requirements in virtual environment just to be sure:
 `pip install -r requirements.txt`, `pip install coverage`, `pip install seleniumbase`, `pip install locust`
+```
+pip install -r requirements.txt
+pip install coverage
+pip install seleniumbase
+pip install locust
+pip3 install -U selenium
+pip3 install webdriver-manager
+```
 
-Install ChromeDriver for Selenium (may have to update PATH in test_frontend.py):
+If not working later on: try installing this as well::
 ```
 sbase install chromedriver latest
 ```
@@ -164,6 +181,7 @@ flask run
 
 #### Running Tests
 ```
+export FLASK_ENV="development"
 cd test
 pytest
 ```
