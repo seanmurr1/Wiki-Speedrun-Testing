@@ -1,6 +1,8 @@
 import pytest 
 from wikispeedruns.marathon import split, getDifficultyScore, genBatch, genPrompts
 
+# Utilize Equivalence Partitioning to BB test split()
+# Even bounds
 def test_split_within_bounds_even():
   arr = [1, 2, 3, 4, 5, 6]
   exp = [[1, 2], [3, 4], [5, 6]]
@@ -8,6 +10,8 @@ def test_split_within_bounds_even():
   for i in range(len(exp)):
     assert next(res) == exp[i]
 
+# Utilize Equivalence Partitioning to BB test split()
+# Odd bounds
 def test_split_within_bounds_odd():
   arr = [1, 2, 3, 4, 5, 6]
   exp = [[1, 2], [3, 4], [5], [6]]
@@ -15,6 +19,8 @@ def test_split_within_bounds_odd():
   for i in range(len(exp)):
     assert next(res) == exp[i]   
 
+# Utilize Equivalence Partitioning to BB test split()
+# More splits than numbers available
 def test_split_out_bounds():
   arr = [1, 2, 3]
   exp = [[1], [2], [3], [], []]
@@ -22,6 +28,8 @@ def test_split_out_bounds():
   for i in range(len(exp)):
     assert next(res) == exp[i] 
 
+# Utilize Equivalence Partitioning to BB test split()
+# No split at all
 def test_split_no_split():
   arr = [1, 2, 3]
   exp = [arr]
@@ -41,7 +49,7 @@ def test_create_run(client, cursor, user, session):
   assert resp.status_code == 200
   assert 1 == cursor.execute("DELETE FROM marathonruns WHERE prompt_id=%s", (1,))
 
-
+# Unable to manipulate session to get this test to run:
 # def test_update_anonymous_marathon_run(client, cursor):
 #   resp = client.post("/api/marathon/runs/", json={
 #     "path": "",
@@ -51,7 +59,7 @@ def test_create_run(client, cursor, user, session):
 #     "finished": 10
 #   })
 
-
+# Test API endpoint to add marathon prompt
 def test_add_marathon_prompt(client, cursor, user, admin_session):
   resp = client.post("/api/marathon/add/", json={
     "data": {
@@ -65,6 +73,7 @@ def test_add_marathon_prompt(client, cursor, user, admin_session):
   assert resp.status_code == 200
   assert 1 == cursor.execute("DELETE FROM marathonprompts WHERE start=%s", (1,))
 
+# Test API endpoint to delete marathon prompt
 def test_delete_prompt(client, cursor, user, admin_session):
   resp = client.post("/api/marathon/add/", json={
     "data": {
@@ -77,10 +86,12 @@ def test_delete_prompt(client, cursor, user, admin_session):
   resp = client.delete("/api/marathon/delete/2")
   assert resp.status_code == 200
 
+# Test API endpoint to get all marathon prompts
 def test_get_all_marathon_prompts(client, cursor, user, session):
   resp = client.get("/api/marathon/all")
   assert resp.json == []
 
+# Test API endpoint to get single marathon prompt
 def test_get_marathon_prompt(client, cursor, user, admin_session):
   resp = client.post("/api/marathon/add/", json={
     "data": {
@@ -94,6 +105,7 @@ def test_get_marathon_prompt(client, cursor, user, admin_session):
   assert resp.json == {"checkpoints":"[2]","initcheckpoints":"2","prompt_id":3,"public":0,"seed":2,"start":"2"}
   assert 1 == cursor.execute("DELETE FROM marathonprompts WHERE start=%s", (2,))
 
+# Test API endpoint to get leaderboard for a marathon prompt
 def test_get_marathon_prompt_leaderboard(client, cursor, user, admin_session):
   resp = client.post("/api/marathon/add/", json={
     "data": {
@@ -107,6 +119,7 @@ def test_get_marathon_prompt_leaderboard(client, cursor, user, admin_session):
   assert resp.json == []
   assert 1 == cursor.execute("DELETE FROM marathonprompts WHERE start=%s", (2,))
 
+# Test API endpoint to get personal leaderboard for marathon prompt
 def test_get_marathon_personal_leaderboard(client, cursor, user, admin_session):
   resp = client.get("/api/marathon/echoingsins")
   assert resp.json == []

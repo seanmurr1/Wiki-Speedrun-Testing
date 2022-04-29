@@ -1,6 +1,6 @@
 import pytest 
 
-
+# Test API endpoint to get username info
 def test_get_username(cursor, client, session):
   username_good = "echoingsins"
   resp = client.get(f"/api/profiles/{username_good}/")
@@ -8,6 +8,7 @@ def test_get_username(cursor, client, session):
   resp = client.get(f"/api/profiles/badname/")
   assert resp.status_code == 404
 
+# Test API endpoint to get total stats for a given username
 def test_total_stats(cursor, client, session):
   resp = client.get(f"/api/profiles/echoingsins/stats")
   assert resp.json == {'total_prompts': 0, 'total_runs': 0}

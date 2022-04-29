@@ -94,6 +94,7 @@ prompt2 = {
     "played": False
 }
 
+# Unit test compute_visibility for BC
 def test_compute_visibility():
     p1 = compute_visibility(prompt1)
     assert p1["used"]
