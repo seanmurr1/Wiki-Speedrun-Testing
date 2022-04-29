@@ -127,9 +127,6 @@ testing or running the app.
 #### App setup
 Install requirements (this is also done in the virtual environment, but I had to 
 do it here as well to fix a weird import error):
-`pip install -r requirements.txt` and 
-`pip install coverage`
-
 ```
 pip install -r requirements.txt
 pip install coverage
@@ -145,8 +142,7 @@ python3 -m venv venv
 source env/bin/activate
 ```
 
-Install requirements in virtual environment just to be sure:
-`pip install -r requirements.txt`, `pip install coverage`, `pip install seleniumbase`, `pip install locust`
+Install requirements in virtual environment just to be sure things work:
 ```
 pip install -r requirements.txt
 pip install coverage
