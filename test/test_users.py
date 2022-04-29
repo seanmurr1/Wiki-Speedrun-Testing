@@ -7,13 +7,14 @@ import re
 import bcrypt
 import hashlib
 
+# Test API endpoint to create user
 def test_create_user(cursor, user):
     cursor.execute("SELECT * FROM users WHERE username=%s", (user["username"],))
     result = cursor.fetchone()
 
     assert(result["join_date"] == datetime.date.today())
 
-
+# Test API endpoint to create existing user
 def test_create_existing_user(client, cursor, user):
 
     response = client.post("/api/users/create/email", json={
