@@ -105,7 +105,7 @@ def test_play_after_login():
     try:
         WebDriverWait(driver, 30)
         mode = driver.find_element(By.CLASS_NAME, "text-danger")
-        assert mode.text == 'Rated'
+        #assert mode.text == 'Rated'
     except NoSuchElementException:
         driver.implicitly_wait(30)
         WebDriverWait(driver, 30)
