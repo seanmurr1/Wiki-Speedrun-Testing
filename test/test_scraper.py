@@ -14,6 +14,7 @@ def test_reverse():
 # Unit test countWords method to meet BC
 # Counts number of words in a string
 # FOUND FAULT: we do not properly deal with whitespace chars
+# This has been changed/refactored in source code
 def test_countWords():
   assert countWords("") == 0
   assert countWords("hi test") == 2
@@ -89,7 +90,7 @@ def test_get_path_api(client, session):
   except RuntimeError: # no path exists here
     pass  
 
-
+# Database issue with test below:
 # def test_gen_prompts_api(client, session):
 #   resp = client.post("/api/scraper/gen_prompts", json={
 #     "N": 2

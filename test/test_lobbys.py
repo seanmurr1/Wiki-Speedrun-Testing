@@ -213,6 +213,8 @@ import datetime
 
 from wikispeedruns.lobbys import _random_passcode
 
+# Unit test random_passcode
+# Probe distribution to ensure passcode generated is valid
 def test_random_passcode():
     for _ in range(1000):
         pw = _random_passcode()

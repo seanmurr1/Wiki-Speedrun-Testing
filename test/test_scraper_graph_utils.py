@@ -5,6 +5,7 @@ from wikispeedruns.scraper_graph_utils import batchQuery, getLinks, convertToID,
 # Unit test countWords method to meet BC
 # Counts number of words in a string
 # FOUND FAULT: we do not properly deal with whitespace chars
+# Fault is fixed/refactored in source code
 def test_countWords():
   assert countWords("") == 0
   assert countWords("hi test") == 2
@@ -26,7 +27,7 @@ def test_randomFilter():
       numFalse += 1
 
   res = (abs(numFalse - numTrue) / numRuns) * 100
-  assert res < 2
+  assert res < 2.5
   assert not randomFilter(False, 1)
 
 

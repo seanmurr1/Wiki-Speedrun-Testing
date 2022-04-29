@@ -1,6 +1,8 @@
 import pytest 
 from wikispeedruns.marathon import split, getDifficultyScore, genBatch, genPrompts
 
+# Utilize Equivalence Partitioning to BB test split()
+# Even bounds
 def test_split_within_bounds_even():
   arr = [1, 2, 3, 4, 5, 6]
   exp = [[1, 2], [3, 4], [5, 6]]
@@ -8,6 +10,8 @@ def test_split_within_bounds_even():
   for i in range(len(exp)):
     assert next(res) == exp[i]
 
+# Utilize Equivalence Partitioning to BB test split()
+# Odd bounds
 def test_split_within_bounds_odd():
   arr = [1, 2, 3, 4, 5, 6]
   exp = [[1, 2], [3, 4], [5], [6]]
@@ -15,6 +19,8 @@ def test_split_within_bounds_odd():
   for i in range(len(exp)):
     assert next(res) == exp[i]   
 
+# Utilize Equivalence Partitioning to BB test split()
+# More splits than numbers available
 def test_split_out_bounds():
   arr = [1, 2, 3]
   exp = [[1], [2], [3], [], []]
@@ -22,6 +28,8 @@ def test_split_out_bounds():
   for i in range(len(exp)):
     assert next(res) == exp[i] 
 
+# Utilize Equivalence Partitioning to BB test split()
+# No split at all
 def test_split_no_split():
   arr = [1, 2, 3]
   exp = [arr]
